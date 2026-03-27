@@ -22,13 +22,13 @@ start:
 	var first_value string
 	fmt.Scanln(&first_value)
 
-	 switch first_value {
+	switch first_value {
 
-	case "quit", "QUIT" :
+	case "quit", "QUIT":
 		fmt.Println(style("GOODBYE👋!!", "\033[1;32m", ""))
 		return
 
-	case "help", "HELP" :
+	case "help", "HELP":
 		fmt.Println(style("-------- AVAILABLE COMMAND -----------", "\033[1;33m", ""))
 		fmt.Println(style("<num1> + <num2>   → addition", "\033[1;30m", ""))
 		fmt.Println(style("<num1> - <num2>   → subtraction", "\033[1;30m", ""))
@@ -37,11 +37,10 @@ start:
 		fmt.Println(style("<quit>   → exit", "\033[1;30m", ""))
 		fmt.Println(" ")
 		goto start
-	
 
-	 }
-	
-	num1, err := strconv.ParseFloat(first_value, 64) 
+	}
+
+	num1, err := strconv.ParseFloat(first_value, 64)
 
 	if err != nil {
 		fmt.Println(style("VALUE MUST BE AN INTEGER", "\033[1;31m", ""))
@@ -59,7 +58,7 @@ operate:
 	fmt.Print("OPERATOR: ")
 	var sign string
 	fmt.Scanln(&sign)
-	
+
 	if sign == "quit" || sign == "QUIT" {
 		fmt.Println(style("GOODBYE👋!!", "\033[1;32m", ""))
 		return
@@ -72,11 +71,11 @@ second:
 	fmt.Scanln(&second_value)
 
 	switch second_value {
-	case "quit", "QUIT" :
+	case "quit", "QUIT":
 		fmt.Println(style("GOODBYE👋!!", "\033[1;32m", ""))
 		return
 
-	case "help", "HELP" :
+	case "help", "HELP":
 		fmt.Println(style("-------- AVAILABLE COMMAND -----------", "\033[1;33m", ""))
 		fmt.Println(style("<num1> + <num2>   → addition", "\033[1;30m", ""))
 		fmt.Println(style("<num1> - <num2>   → subtraction", "\033[1;30m", ""))
@@ -86,11 +85,9 @@ second:
 		fmt.Println(" ")
 		goto second
 
-	
-	 }
+	}
 
-
-	num2, err := strconv.ParseFloat(second_value, 64) 
+	num2, err := strconv.ParseFloat(second_value, 64)
 
 	if err != nil {
 		fmt.Println(style("VALUE MUST BE AN INTEGER", "\033[1;31m", ""))
@@ -99,28 +96,27 @@ second:
 		goto second
 	}
 
-
 	switch sign {
 
-	case "+":
-		fmt.Printf(style("RESULT: %.2f %s %.2f = %.2f\n", "\033[1;32m", ""), num1, sign, num2, num1 + num2)
+	case "+", "ADD", "add":
+		fmt.Printf(style("RESULT: %.2f %s %.2f = %.2f\n", "\033[1;32m", ""), num1, sign, num2, num1+num2)
 
-	case "-" :
-		fmt.Printf(style("RESULT: %.2f %s %.2f = %.2f\n", "\033[1;32m", ""), num1, sign, num2, num1 - num2)
+	case "-", "sub", "SUB":
+		fmt.Printf(style("RESULT: %.2f %s %.2f = %.2f\n", "\033[1;32m", ""), num1, sign, num2, num1-num2)
 
-	case "*" :
-		fmt.Printf(style("RESULT: %.2f %s %.2f = %.2f\n", "\033[1;32m", ""), num1, sign, num2, num1 * num2)
+	case "*", "MUL", "mul":
+		fmt.Printf(style("RESULT: %.2f %s %.2f = %.2f\n", "\033[1;32m", ""), num1, sign, num2, num1*num2)
 
-	case "/" :
+	case "/", "div", "DIV":
 		if second_value == "0" {
 			fmt.Println(style("THE DIVISOR CANNOT BE ZERO", "\033[1;31m", ""))
-			fmt.Println(style("TRY AGAIN", "\033[1;33m", ""))
+			fmt.Println(style("TRY AGAIN", "\033[1;31m", ""))
 			fmt.Println(" ")
 			goto second
 
 		}
-		fmt.Printf(style("RESULT: %.2f %s %.2f = %.2f\n", "\033[1;32m", ""), num1, sign, num2, num1 / num2)
-		
+		fmt.Printf(style("RESULT: %.2f %s %.2f = %.2f\n", "\033[1;32m", ""), num1, sign, num2, num1/num2)
+
 	case "help", "HELP":
 		fmt.Println(style("-------- AVAILABLE COMMAND -----------", "\033[1;33m", ""))
 		fmt.Println(style("<num1> + <num2>   → addition", "\033[1;30m", ""))
@@ -131,8 +127,8 @@ second:
 		fmt.Println(" ")
 		goto operate
 
-	default :
-		fmt.Println(style("IVALID ARITHMETIC SYNTAX", "\033[1;31m", ""))
+	default:
+		fmt.Println(style("INVALID ARITHMETIC SYNTAX", "\033[1;31m", ""))
 		fmt.Println(" ")
 		fmt.Println(style("PRESS <help> TO SEE AVAILABLE OPERATIONS", "\033[1;33m", ""))
 		fmt.Println(" ")
