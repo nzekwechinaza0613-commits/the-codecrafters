@@ -44,7 +44,7 @@ func title(s string) string {
 
 	smallWords := map[string]bool{
 		"a": true, "an": true, "of": true, "the": true, "and": true, "but": true,
-		"or": true, "for": true, "nor": true, "on": true, "at": true, "to": true, 
+		"or": true, "for": true, "nor": true, "on": true, "at": true, "to": true,
 		"by": true, "in": true, "it": true, "is": true, "as": true, "up": true,
 	}
 
@@ -91,12 +91,13 @@ func palindrome(s string) string {
 	rev := []rune(s)
 	var reverse []rune
 	for i := len(rev) - 1; i >= 0; i-- {
-		if string(reverse) == string(rev) {
-			return "is a palindrome"
-		}
-
+		reverse = append(reverse, rev[i])
 	}
-	return "is not a palidrome"
+	if string(reverse) == string(rev) {
+
+		return "is a palindrome"
+	}
+	return "is not a palindrome"
 }
 
 func main() {
@@ -117,24 +118,21 @@ start:
 		fmt.Println("error")
 		fmt.Println(" ")
 	}
-	
+
 	if input == "" {
 		goto start
-		
-	
+	}
+	if strings.ToLower(input) == "quit" {
+		fmt.Print(" Shutting down String Transformer.\n Goodbye.")
+		return
 	}
 
-
 	parts := strings.Fields(input)
-	
+
 	cases := parts[0]
 	textSclice := parts[1:]
 
 	text := strings.Join(textSclice, " ")
-
-	if strings.ToLower(text) == "quit" {
-		return
-	}
 
 	if len(text) <= 1 {
 		fmt.Println(" ")
@@ -169,8 +167,10 @@ start:
 		fmt.Println(" ")
 		fmt.Println(reverse(text))
 
-	case "quit":
-		return
+	case "palindrome":
+		fmt.Println(" ")
+		fmt.Printf("%v %v", text, palindrome(text))
+		fmt.Println(" ")
 
 	default:
 		fmt.Println("UNKNOWN COMMAND")
