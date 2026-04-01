@@ -41,23 +41,23 @@ import (
 	"strings"
 )
 
-func trimSpace(s string) string{
-	space1 := regexp.MustCompile(`^\s+`)
-	space2 := regexp.MustCompile(`$\s+`)
+func trimSpace(text string) string {
+	space1 := regexp.MustCompile(`^\text+`)
+	space2 := regexp.MustCompile(`$\text+`)
 
-	s = space1.ReplaceAllString(s, "")
-	s =space2.ReplaceAllString(s, "")
+	text = space1.ReplaceAllString(text, "")
+	text = space2.ReplaceAllString(text, "")
 
-	return s
+	return text
 }
 
-func replace(s string) string{
-	s = strings.ReplaceAll(s, "TODO", "ACTION")
-	return s
+func replace(text string) string {
+	text = strings.ReplaceAll(text, "TODO", "ACTION")
+	return text
 }
 
-func toTitle(s string) string {
-	words := strings.Fields(s)
+func toTitle(text string) string {
+	words := strings.Fields(text)
 	for i := 0; i < len(words); i++ {
 		for _, char := range words {
 			if char >= "A" && char <= "Z" {
@@ -68,8 +68,8 @@ func toTitle(s string) string {
 	return strings.Join(words, " ")
 }
 
-func toLower(s string) string {
-	words := strings.Fields(s)
+func toLower(text string) string {
+	words := strings.Fields(text)
 	for i := 0; i < len(words); i++ {
 		for _, char := range words {
 			if char >= "a" && char <= "z" {
@@ -80,34 +80,45 @@ func toLower(s string) string {
 	return strings.Join(words, " ")
 }
 
-func flag(s string) string {
-	if len(s) > 80 {
-		return s + "TRUNCATED"
+func flag(text string) string {
+	if len(text) > 80 {
+		return text + "TRUNCATED"
 	}
-	return s
+	return text
 }
 
-func dashesAndBlankSpaces(s string) string{
-	space := regexp.MustCompile(`\s+`)
+func dashesAndBlankSpaces(text string) string {
+	space := regexp.MustCompile(`\text+`)
 	dashes := regexp.MustCompile(`-|_`)
 
-	s = space.ReplaceAllString(s, "")
-	s = dashes.ReplaceAllString(s, "")
+	text = space.ReplaceAllString(text, "")
+	text = dashes.ReplaceAllString(text, "")
 
-	return s
+	return text
 }
 func main() {
-	input, err := os.Open("input.txt")
+	fileText := "input.txt"
+	input, err := os.Open(fileText)
 
-	if err != nil{
+	if err != nil {
 		fmt.Println("FILE NOT FOUND: input.txt")
 		return
 	}
-	
+
 	defer input.Close()
 
+	file, err := input.Stat()
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	if file.Size() == 0 {
+		fmt.Println("⚠Input file is empty. Nothing to process")
+		return
+	}
+
 	scanner := bufio.NewScanner(input)
-	
+
 	for scanner.Scan() {
 		fmt.Println(scanner.Text())
 	}
@@ -115,6 +126,32 @@ func main() {
 	if err := scanner.Err(); err != nil {
 		fmt.Println(err)
 	}
-	
+
+	if len(os.Args) != 3 {
+		fmt.Println("Usage: go run . <input.txt> <output.txt>")
+	}
+
+	inputFile := os.Args[1]
+	outputFile := os.Args[2]
+
+	data, err := os.ReadFile(inputFile)
+
+	if err != nil {
+		fmt.Println("Error reading file: ", err)
+		return
+	}
+	text := string(data)
+	text = trimSpace(text)
+	text = replace(text)
+	text = toTitle(text)
+	text = toLower(text)
+	text = flag(text)
+	text = dashesAndBlankSpaces(text)
+
+	err = os.WriteFile(outputFile, []byte(text), 0644)
+	if err != nil {
+		fmt.Println("Error writing file: ", err)
+		return
+	}
 
 }

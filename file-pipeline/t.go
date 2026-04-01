@@ -7,7 +7,7 @@ import (
 	"os"
 )
 
-func main() {
+func mai() {
 	// 1. Open the file
 	file, err := os.Open("large_file.txt")
 	if err != nil {
