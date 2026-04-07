@@ -42,8 +42,8 @@ import (
 )
 
 func trimSpace(text string) string {
-	space1 := regexp.MustCompile(`^\text+`)
-	space2 := regexp.MustCompile(`$\text+`)
+	space1 := regexp.MustCompile(`^\s+`)
+	space2 := regexp.MustCompile(`$\s+`)
 
 	text = space1.ReplaceAllString(text, "")
 	text = space2.ReplaceAllString(text, "")
@@ -82,13 +82,13 @@ func toLower(text string) string {
 
 func flag(text string) string {
 	if len(text) > 80 {
-		return text + "TRUNCATED"
+		return text + " TRUNCATED"
 	}
 	return text
 }
 
 func dashesAndBlankSpaces(text string) string {
-	space := regexp.MustCompile(`\text+`)
+	space := regexp.MustCompile(`\s+`)
 	dashes := regexp.MustCompile(`-|_`)
 
 	text = space.ReplaceAllString(text, "")
